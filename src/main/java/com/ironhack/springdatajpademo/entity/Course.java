@@ -1,6 +1,7 @@
 package com.ironhack.springdatajpademo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Objects;
 import java.util.Set;
@@ -15,7 +16,7 @@ public class Course {
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private Set<Section> sections;
 
-
+   @NotEmpty(message = "The courseName can not be null")
     private String courseName;
 
     public Course() {
