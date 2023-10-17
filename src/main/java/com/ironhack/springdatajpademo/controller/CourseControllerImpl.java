@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -49,8 +50,24 @@ public class CourseControllerImpl {
     public List<Course> addAllCourses(@RequestBody List<Course> courses){
         return courseServiceImpl.addAllCourses(courses);
     }
-//
-//    //Get Request with Parameters
+
+    // Delete a course
+    @DeleteMapping("/courses/delete/{courseCode}")
+    public String deleteCourse(@PathVariable String courseCode){
+       return courseServiceImpl.deleteCourse(courseCode);
+    }
+
+    @PutMapping("/courses/update/{courseCode}")
+    public String updateCourse(@PathVariable String courseCode, @RequestBody Course course){
+        return courseServiceImpl.updateCourse(courseCode, course);
+    }
+
+    @PatchMapping("/courses/PatchUpdate/{courseCode}")
+    public String updateCourse(@PathVariable String courseCode, @RequestBody Map<String, Object> updates) {
+        return courseServiceImpl.partialUpdateCourse(courseCode, updates);
+    }//
+
+//    Get Request with Parameters
 //
 //    // 1. Using Path Variable
 //    @GetMapping("/courses/{courseCode}")
