@@ -2,16 +2,15 @@ package com.ironhack.springdatajpademo.controller;
 
 
 import com.ironhack.springdatajpademo.entity.Course;
-import com.ironhack.springdatajpademo.repository.CourseRepository;
 import com.ironhack.springdatajpademo.service.implementations.CourseServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 public class CourseControllerImpl {
@@ -42,8 +41,21 @@ public class CourseControllerImpl {
 
     //A Post method to Add a new course
     @PostMapping("/courses/add")
-    public Course addCourse(@RequestBody @Valid Course course){
-        return courseServiceImpl.addCourse(course);
+    public ResponseEntity<String> addCourse(@RequestBody @Valid Course course){
+        try{
+            //Use the service layer add method to add the course
+            courseServiceImpl.addCourse(course);
+            String message = "Course Added Successfully";
+            // return the response status and the message in the body
+            return ResponseEntity.status(HttpStatus.OK).body(message);
+        }
+        catch(Exception e){
+            // Saving the error message in a variable and calling getMessage method
+            // to get a detailed error message from exception class
+            String errorMessage = "Course Not Added successfully" + e.getMessage();
+            // return the response status and the message in the body
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+        }
     }
 
     @PostMapping("/courses/addAll")
